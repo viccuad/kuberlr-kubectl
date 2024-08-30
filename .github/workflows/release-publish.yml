@@ -1,0 +1,42 @@
+name: Stable Image Releases
+
+on:
+  push:
+    tags:
+      - '*'
+
+env:
+  IMAGE_REPO: "rancher/kuberlr-kubectl"
+
+# GitHub settings / example values:
+#
+# org level vars:
+#   - PUBLIC_REGISTRY: docker.io
+# repo level vars:
+#   - PUBLIC_REGISTRY_REPO: rancher
+# repo level secrets:
+#   - PUBLIC_REGISTRY_USERNAME
+#   - PUBLIC_REGISTRY_PASSWORD
+
+permissions:
+  contents: write # Upload artefacts to release.
+
+jobs:
+
+  publish-public:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build and push all platforms
+        uses: rancher/ecm-distro-tools/actions/publish-image@master
+        with:
+          image: kuberlr-kubectl
+          tag: ${{ github.ref_name }}
+          platforms: "linux/amd64,linux/arm64,linux/s390x"
+
+          public-registry: ${{ env.PUBLIC_REGISTRY }}
+          public-repo: ${{ vars.REPO || github.repository_owner }}
+          public-username: ${{ vars.DOCKER_USERNAME || github.repository_owner }}
+          public-password: ${{ secrets.DOCKER_PASSWORD }}
+
+          push-to-prime: false
