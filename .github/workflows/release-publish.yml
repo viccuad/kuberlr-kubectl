@@ -24,6 +24,13 @@ permissions:
 jobs:
 
   publish-public:
+    permissions:
+      contents: read
+      # write is needed for:
+      # - OIDC for cosign's use in ecm-distro-tools/publish-image.
+      # - Read vault secrets in rancher-eio/read-vault-secrets.
+      id-token: write
+
     runs-on: ubuntu-latest
 
     steps:
