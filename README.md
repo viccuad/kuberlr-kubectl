@@ -11,18 +11,13 @@ This repo produces a Rancher specific version of the `flavio/kuberlr` image.
   - Each release pre-bundles all necessary [kubectl](https://github.com/rancher/kubectl) versions supported by the Rancher version the release supports.
 
 ## Branches, Releases, and Rancher
-| branch               | Release       | Rancher |
-|----------------------|---------------|---------|
-| main (release/v2.10) | head (v3.Y.Z) | 2.10.Z  |
-| release/v2.9         | v2.Y.Z        | 2.9.Z   |
-| release/v2.8         | v1.Y.Z        | 2.8.Z   |
+| Branch            | Release Tag   | Rancher Tag (Branch) |
+|-------------------|---------------|----------------------|
+| main (release/v3) | head (v3.Y.Z) | 2.10.Z (main)        |
+| release/v2        | v2.Y.Z        | 2.9.Z (release/v2.9) |
+| release/v1        | v1.Y.Z        | 2.8.Z (release/v2.8) |
 
 ### Notes:
-- The current main branch is for 2.9 since that's the primary dev target.
-  - Upon rehoming to `rancher` we will:
-    - a `release/v2.9` will be created with not changes needed;
-    - `release/v2.8` will be created and PR'd to match kubectl versions;
-    - `main` can then be PR'd to use 2.10 target kubectls.
 - Each minor Rancher release will get a `rancher/kuberlr-kubectl` branch:
   - Each branch will get an image tag major to match it.
   - This gives us full "Y" and "Z" control on versioning the component to target Rancher minors.
