@@ -34,7 +34,7 @@ RUN set -fx; versions=($KUBECTL_VERSION_INFO); \
         echo "${KUBE_SUM} ${kubectl_target}" | sha256sum -c -; \
     done
 
-FROM ghcr.io/flavio/kuberlr:v0.5.1
+FROM ghcr.io/flavio/kuberlr:v0.5.2
 
 COPY --from=build /tmp/kubectl* /usr/bin/
 
