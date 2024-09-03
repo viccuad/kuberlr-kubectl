@@ -27,7 +27,6 @@ RUN set -fx; versions=($KUBECTL_VERSION_INFO); \
         version=$(echo ${versions[$i]} | cut -d: -f1); \
         arm64_sum=$(echo ${versions[$i]} | cut -d: -f2); \
         amd64_sum=$(echo ${versions[$i]} | cut -d: -f3); \
-        s390x_sum=$(echo ${versions[$i]} | cut -d: -f4); \
         kubectl_target="/tmp/kubectl${version:1}"; \
         KUBE_SUM_NAME="${TARGETARCH}_sum"; \
         KUBE_SUM=${!KUBE_SUM_NAME}; \
