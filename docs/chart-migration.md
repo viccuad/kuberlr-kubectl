@@ -7,7 +7,7 @@
 
 Since the new `kuberlr` based image targets Rancher minor versions, the chart migration process depends on the Rancher minor version the chart targets.
 
-Refer to the table below (and maintained on the main README.md) to identify the appropriate `rancher/kuberlr-kubectl` image version when replacing `rancher/kubectl`.
+Refer to the table below (and maintained on the main [README.md](/README.md)) to identify the appropriate `rancher/kuberlr-kubectl` image version when replacing `rancher/kubectl`.
 
 | `rancher/kuberlr-kubectl` Tag   | Rancher Tag (Branch) |
 |---------------|----------------------|

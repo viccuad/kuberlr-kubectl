@@ -23,6 +23,10 @@ This repo produces a Rancher specific version of the `flavio/kuberlr` image.
   - This gives us full "Y" and "Z" control on versioning the component to target Rancher minors.
   - E.x. Rancher 2.8.x releases will get varying versions of 1.Y.Z
 
+### Migration
+
+See the dedicated [Migration's Doc](/docs/chart-migration.md) for specific details on migrating charts.
+
 ### Compatability
 
 The base `flavio/kuberlr` image comes from the upstream repo and is essentially universally compatible like `kuberlr`.
