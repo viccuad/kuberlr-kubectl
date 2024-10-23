@@ -1,12 +1,33 @@
 ARG BCI_VERSION=15.6
-FROM --platform=$BUILDPLATFORM registry.suse.com/bci/bci-base:${BCI_VERSION} AS build
+FROM ghcr.io/flavio/kuberlr:v0.5.2 AS kuberlr
+FROM registry.suse.com/bci/bci-busybox:${BCI_VERSION} AS final
+FROM registry.suse.com/bci/bci-base:${BCI_VERSION} AS zypper
 
 ARG TARGETPLATFORM
 ARG TARGETARCH
 
+# Creates the based dir for the target image, and hydrates it with the
+# original contents of the final image.
+RUN mkdir /chroot
+COPY --from=final / /chroot/
+
+# The final image does not contain zypper, --installroot is used to
+# install all artefacts within a dir (/chroot) that can then be copied
+# over to a scratch image.
+RUN zypper --non-interactive refresh && \
+    zypper --installroot /chroot -n rm busybox-vi busybox-links && \
+    zypper --installroot /chroot -n in bash-completion && \
+    zypper --installroot /chroot clean -a && \
+    rm -rf /chroot/var/cache/zypp/* /chroot/var/log/zypp/* /chroot/etc/zypp/
+
+# Pull in kuberlr bin and home dir (pre configured .kubrlr)
+COPY --from=kuberlr /bin/kuberlr /chroot/bin/
+RUN cd /chroot/bin && ln -s ./kuberlr ./kubectl
+COPY --from=kuberlr /home/kuberlr /chroot/home/kuberlr
+RUN sed -i 's/AllowDownload = true/AllowDownload = false/' /chroot/home/kuberlr/.kuberlr/kuberlr.conf
+
 WORKDIR /tmp
 
-# Define build arguments
 ARG KUBECTL_VERSION_INFO
 
 SHELL ["/bin/bash", "-c"]
@@ -33,9 +54,16 @@ RUN set -fx; versions=($KUBECTL_VERSION_INFO); \
         echo "${KUBE_SUM} ${kubectl_target}" | sha256sum -c -; \
     done
 
-FROM ghcr.io/flavio/kuberlr:v0.5.2
+RUN cp /tmp/kubectl* /chroot/usr/bin/
 
-COPY --from=build /tmp/kubectl* /usr/bin/
+RUN useradd -u 1000 -U kuberlr \
+    && cp /etc/passwd /chroot/etc/passwd \
+    && cp /etc/group /chroot/etc/group \
+    && chown -R 1000:1000 /chroot/home/kuberlr
+
+FROM scratch
+
+COPY --from=zypper /chroot /
 
 USER kuberlr
 WORKDIR /home/kuberlr
