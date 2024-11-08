@@ -27,6 +27,8 @@ jobs:
       # - OIDC for cosign's use in ecm-distro-tools/publish-image.
       # - Read vault secrets in rancher-eio/read-vault-secrets.
       id-token: write
+      packages: write
+      attestations: write
 
     runs-on: ubuntu-latest
 

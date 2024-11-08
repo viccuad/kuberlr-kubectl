@@ -39,6 +39,8 @@ jobs:
       # - Read vault secrets in rancher-eio/read-vault-secrets.
       # - Publish image to ghcr.io
       id-token: write
+      packages: write
+      attestations: write
 
     runs-on: ubuntu-latest
     needs:
