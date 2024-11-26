@@ -14,11 +14,11 @@ This repo produces a Rancher specific version of the `flavio/kuberlr` image.
   - Each release pre-bundles all necessary [kubectl](https://github.com/rancher/kubectl) versions supported by the Rancher version the release supports.
 
 ## Branches, Releases, and Rancher
-| Branch            | Release Tag   | Rancher Tag (Branch) |
-|-------------------|---------------|----------------------|
-| main (release/v3) | head (v3.Y.Z) | 2.10.Z (main)        |
-| release/v2        | v2.Y.Z        | 2.9.Z (release/v2.9) |
-| release/v1        | v1.Y.Z        | 2.8.Z (release/v2.8) |
+| Branch              | Release Tag   | Rancher Tag (Branch) |
+|---------------------|---------------|----------------------|
+| main (release/v3.x) | head (v3.Y.Z) | 2.10.Z (main)        |
+| release/v2.x        | v2.Y.Z        | 2.9.Z (release/v2.9) |
+| release/v1.x        | v1.Y.Z        | 2.8.Z (release/v2.8) |
 
 ### Notes:
 - Each minor Rancher release will get a `rancher/kuberlr-kubectl` branch:
