@@ -24,7 +24,6 @@ RUN zypper --non-interactive refresh && \
 COPY --from=kuberlr /bin/kuberlr /chroot/bin/
 RUN cd /chroot/bin && ln -s ./kuberlr ./kubectl
 COPY --from=kuberlr /home/kuberlr /chroot/home/kuberlr
-RUN sed -i 's/AllowDownload = true/AllowDownload = false/' /chroot/home/kuberlr/.kuberlr/kuberlr.conf
 
 WORKDIR /tmp
 
